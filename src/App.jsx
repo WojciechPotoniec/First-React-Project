@@ -10,6 +10,18 @@ function App() {
   function handleSelected(selectedButton) {
     setSelectedTopic(selectedButton);
   }
+  let tabContent = <p>Please select a Topic.</p>;
+
+  if (selectedTopic) {
+    tabContent = <div id="tab-content">
+    <h3>{EXAMPLES[selectedTopic].title}</h3>
+    <p>{EXAMPLES[selectedTopic].description}</p>
+    <pre>
+      <code>{EXAMPLES[selectedTopic].code}</code>
+    </pre>
+  </div>
+  }
+
   return (
     <div>
       <Header />
@@ -17,10 +29,7 @@ function App() {
         <section id="core-concepts">
           <h2>Time to get started!</h2>
           <ul>
-            <CoreConcept {...CORE_CONCEPTS[0]} />
-            <CoreConcept {...CORE_CONCEPTS[1]} />
-            <CoreConcept {...CORE_CONCEPTS[2]} />
-            <CoreConcept {...CORE_CONCEPTS[3]} />
+            {CORE_CONCEPTS.map((conceptItem) => (<CoreConcept key={conceptItem.title} {...conceptItem} />))}
           </ul>
         </section>
         <section id="examples">
@@ -51,17 +60,7 @@ function App() {
               State
             </TabButton>
           </menu>
-          {!selectedTopic ? (
-            <p>Please select a Topic.</p>
-          ) : (
-            <div id="tab-content">
-              <h3>{EXAMPLES[selectedTopic].title}</h3>
-              <p>{EXAMPLES[selectedTopic].description}</p>
-              <pre>
-                <code>{EXAMPLES[selectedTopic].code}</code>
-              </pre>
-            </div>
-          )}
+          {tabContent}
         </section>
       </main>
     </div>
